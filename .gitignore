@@ -5,6 +5,7 @@
 .env.development
 .env.test
 .env.production
+!.env.example
 
 # Firebase credentials
 firebase-key.json
