@@ -9,8 +9,16 @@ const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const fs = require('fs');
 
 // Firebase Admin Initialization
+const firebaseBase64 = process.env.FIREBASE_KEY_BASE64;
+const firebasePath = path.join(__dirname, 'firebase-key.json');
+
+if (firebaseBase64 && !fs.existsSync(firebasePath)) {
+  fs.writeFileSync(firebasePath, Buffer.from(firebaseBase64, 'base64').toString('utf-8'));
+}
+
 const serviceAccount = require('./firebase-key.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -176,9 +184,16 @@ function ensureAuthenticated(req, res, next) {
 }
 
 // Google Calendar Setup
+const googleCalendarBase64 = process.env.GOOGLE_CALENDAR_KEY_BASE64;
+const googleCalendarPath = path.join(__dirname, 'google-calendar-key.json');
+
+if (googleCalendarBase64 && !fs.existsSync(googleCalendarPath)) {
+  fs.writeFileSync(googleCalendarPath, Buffer.from(googleCalendarBase64, 'base64').toString('utf-8'));
+}
+
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const auth = new google.auth.GoogleAuth({
-  keyFile: './google-calendar-key.json', // ✅ CHANGE THIS IF YOU RENAMED YOUR KEY
+  keyFile: './google-calendar-key.json',
   scopes: SCOPES,
 });
 const calendar = google.calendar('v3');
