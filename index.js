@@ -74,7 +74,7 @@ app.get('/auth/google/callback',
     res.redirect(process.env.POST_AUTH_REDIRECT || '/admin-preview');
   }
 );
-app.get('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
   req.logout(() => {
     req.session.destroy(() => {
       res.redirect('/login');
@@ -864,8 +864,25 @@ app.get('/admin-preview', ensureAuthenticated, async (req, res) => {
       </head>
       <body>
         <div class="admin-container">
-          <div class="logout-container">
-            <a href="/logout" class="logout-btn">Logout</a>
+          <div class="logout-container" style="display: flex; justify-content: flex-end; padding: 1rem;">
+            <form action="/logout" method="POST">
+              <button
+                type="submit"
+                style="
+                  padding: 0.5rem 1rem;
+                  font-weight: bold;
+                  background: linear-gradient(to right, #b91c1c, #dc2626);
+                  color: white;
+                  border: none;
+                  border-radius: 0.5rem;
+                  width: auto;
+                  max-width: 100%;
+                  font-size: 1rem;
+                "
+              >
+                Logout
+              </button>
+            </form>
           </div>
           <h1>Hamza's Family Calendar<br><span style="font-size:1.1rem;font-weight:400;">Admin Preview</span></h1>
           <div class="birthday-list">
