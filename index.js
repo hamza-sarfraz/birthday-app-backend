@@ -51,7 +51,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3001/auth/google/callback",
+      callbackURL: process.env.GOOGLE_OAUTH_CALLBACK_URL || "http://localhost:3001/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       // Restrict access to only your Gmail
@@ -71,7 +71,7 @@ app.get('/login', passport.authenticate('google', { scope: ['profile', 'email'] 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/access-denied' }),
   (req, res) => {
-    res.redirect('/admin-preview');
+    res.redirect(process.env.POST_AUTH_REDIRECT || '/admin-preview');
   }
 );
 app.get('/logout', (req, res) => {
