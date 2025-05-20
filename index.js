@@ -689,28 +689,40 @@ app.get('/admin-preview', ensureAuthenticated, async (req, res) => {
             padding: 2.5rem 2rem;
             position: relative;
           }
+          .logout-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 16px 16px 0 16px;
+          }
           .logout-btn {
-            position: absolute;
-            top: 24px;
-            right: 32px;
             background: linear-gradient(45deg, #a72033, #c0392b, #a72033);
-            background-size: 300% 300%;
             color: white;
-            padding: 10px 22px;
+            font-weight: 600;
+            padding: 10px 24px;
             border: none;
             border-radius: 10px;
             font-size: 1rem;
-            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background 0.2s, box-shadow 0.2s;
             box-shadow: 0 2px 8px rgba(167,32,51,0.13);
             text-decoration: none;
-            z-index: 10;
+            display: inline-block;
+            margin: 0;
+            width: auto;
+            min-width: 80px;
+            max-width: 100%;
           }
-          .logout-btn:hover {
-            filter: brightness(1.08);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(167,32,51,0.18);
+          @media (max-width: 600px) {
+            .logout-btn {
+              display: block;
+              width: 90%;
+              margin: 16px auto 20px auto;
+              font-size: 1rem;
+              padding: 10px 0;
+              border-radius: 8px;
+              box-sizing: border-box;
+            }
           }
           h1 {
             color: #01411C;
@@ -848,23 +860,13 @@ app.get('/admin-preview', ensureAuthenticated, async (req, res) => {
               flex: 1;
             }
           }
-          @media (max-width: 600px) {
-            .logout-btn {
-              position: static;
-              display: block;
-              width: 90%;
-              margin: 16px auto 20px auto;
-              font-size: 1rem;
-              padding: 10px 0;
-              border-radius: 8px;
-              box-sizing: border-box;
-            }
-          }
         </style>
       </head>
       <body>
         <div class="admin-container">
-          <a href="/logout" class="logout-btn">Logout</a>
+          <div class="logout-container">
+            <a href="/logout" class="logout-btn">Logout</a>
+          </div>
           <h1>Hamza's Family Calendar<br><span style="font-size:1.1rem;font-weight:400;">Admin Preview</span></h1>
           <div class="birthday-list">
     `;
