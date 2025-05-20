@@ -67,7 +67,7 @@ passport.use(
 );
 
 // Auth Routes
-app.get('/login', passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get('/login', passport.authenticate('google', { scope: ['profile', 'email'], prompt: 'select_account' }));
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/access-denied' }),
   (req, res) => {
@@ -76,7 +76,9 @@ app.get('/auth/google/callback',
 );
 app.get('/logout', (req, res) => {
   req.logout(() => {
-    res.redirect('/login');
+    req.session.destroy(() => {
+      res.redirect('/login');
+    });
   });
 });
 
@@ -844,6 +846,18 @@ app.get('/admin-preview', ensureAuthenticated, async (req, res) => {
             }
             .action-btn {
               flex: 1;
+            }
+          }
+          @media (max-width: 600px) {
+            .logout-btn {
+              position: static;
+              display: block;
+              width: 100%;
+              margin: 0 0 1rem 0;
+              font-size: 1.1rem;
+              padding: 14px 0;
+              right: auto;
+              top: auto;
             }
           }
         </style>
